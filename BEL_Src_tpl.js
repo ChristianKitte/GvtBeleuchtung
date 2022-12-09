@@ -41,11 +41,18 @@ var app = (function () {
     // Objekt with light sources characteristics in the scene.
     var illumination = {
         ambientLight: [0.5, 0.5, 0.5],
-        light: [{
-            isOn: true,
-            position: [3., 1., 3.],
-            color: [1., 1., 1.]
-        },]
+        light: [
+            {
+                isOn: true,
+                //position: [6., 1., 3.],
+                position: [-6., 0., 3.],
+                color: [1., 1., 1.]
+            }, {
+                isOn: false,
+                //position: [6., 1., 3.],
+                position: [6., 0., 1.],
+                color: [5., 1., 0.]
+            },]
     };
 
     function start() {
@@ -188,15 +195,23 @@ var app = (function () {
 
         // Create some default material.
         var mDefault = createPhongMaterial();
+        var mRed = createPhongMaterial({kd:[1.,0.,0.]});
+        var mGreen = createPhongMaterial({kd:[0.,1.,0.]});
+        var mBlue = createPhongMaterial({kd:[0.,0.,1.]});
+        var mWhite = createPhongMaterial({ka:[1.,1.,1.], kd:[.5,.5,.5],
+            ks:[0.,0.,0.]});
+
+        // Create some default material.
+        var mDefault = createPhongMaterial();
 
         createModel("torus", fs, [1, 1, 1, 1], [0, .75, 0],
-            [0, 0, 0, 0], [1, 1, 1, 1], mDefault);
+            [0, 0, 0, 0], [1, 1, 1, 1], mRed);
         createModel("sphere", fs, [1, 1, 1, 1], [-1.25, .5, 0], [0, 0,
-            0, 0], [.5, .5, .5], mDefault);
+            0, 0], [.5, .5, .5], mGreen);
         createModel("sphere", fs, [1, 1, 1, 1], [1.25, .5, 0], [0, 0,
-            0, 0], [.5, .5, .5], mDefault);
+            0, 0], [.5, .5, .5], mBlue);
         createModel("plane", fs, [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0,
-            0], [1, 1, 1, 1], mDefault);
+            0], [1, 1, 1, 1], mWhite);
 
         // Select one model that can be manipulated interactively by user.
         interactiveModel = models[0];

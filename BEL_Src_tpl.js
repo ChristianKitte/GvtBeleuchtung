@@ -45,13 +45,13 @@ var app = (function () {
             {
                 isOn: true,
                 //position: [6., 1., 3.],
-                position: [-6., 0., 3.],
-                color: [1., 1., 1.]
+                position: [6., 0., 3.],
+                color: [.2, .2, 1.]
             }, {
-                isOn: false,
+                isOn: true,
                 //position: [6., 1., 3.],
-                position: [6., 0., 1.],
-                color: [5., 1., 0.]
+                position: [-6., 1., 3.],
+                color: [1., .5, .5]
             },]
     };
 

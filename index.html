@@ -50,6 +50,17 @@
         </p>
         <ol>
             <li>Die <em><b>Tasten l, L (shift-l)</b></em> startet oder stoppt die Bewegung der Lichter</li>
+            <li>
+                <label for="shading">Welches Shading soll verwendet werden?</label>
+                <select name="shading" id="shading">
+                    <option value="0" selected>Phong Shading</option>
+                    <option value="1">Toon Shading</option>
+                </select>
+            </li>
+            <li>
+                <label for="toon-steps">Wieviele Schritte sollen verendet werden?</label>
+                <input value="10" id="toon-steps" type="number" min="1" max="50">
+            </li>
         </ol>
     </div>
 
@@ -64,6 +75,9 @@
 			uniform mat4 uPMatrix;
 			uniform mat4 uMVMatrix;
 			uniform mat3 uNMatrix;
+
+            uniform int uShaderTyp;
+            uniform float uToonSteps;
 
 			//uniform vec4 uColor;
 			varying vec4 vColor;
@@ -104,6 +118,52 @@
 
                 vec3 specular = material.ks * L * pow(rv, material.ke);
 
+                if(uShaderTyp==1){
+                    //http://www.florian-oeser.de/rtr/ue3/3.1.html
+
+                    float stepDelta=1.0/uToonSteps;
+                    float curLimeValue=0.;
+
+                    const float Counter = 50.;
+
+                    for(float i=0.;i<Counter;i+=1.){
+                        if(i<uToonSteps){
+                            if(sn<curLimeValue){
+                                diffuse=L*curLimeValue;
+                                break;
+                            } else {
+                                curLimeValue+=stepDelta;
+                            }
+                        }
+                    }
+
+                    /*
+                    // Diffuses Licht
+                    if(sn<0.2){
+                        diffuse = L * 0.2;
+                    }
+                    else if(sn<0.4){
+                        diffuse = L * 0.4;
+                    }
+                    else if(sn<0.6){
+                        diffuse = L * 0.6;
+                    }
+                    else if(sn<0.8){
+                        diffuse = L * 0.8;
+                    }
+                    else if(sn<1.0){
+                        diffuse = L * 1.0;
+                    }*/
+
+                    // Glanzlichter
+                    if(rv<0.9){
+                        specular = vec3(0.,0.,0.);
+                    }
+                    else {
+                        specular = vec3(1.,1.,1.);
+                    }
+                }
+
                 return diffuse + specular;
 			}
 
@@ -137,6 +197,15 @@
 			}
 
 
+
+
+
+
+
+
+
+
+
 </script>
 
 <script type="x-shader/x-fragment" id="fragmentshader">
@@ -148,6 +217,15 @@
 			    float zbuffer = fract(gl_FragCoord.z);
 				gl_FragColor = vColor * vec4(zbuffer,zbuffer,zbuffer, 1.0);
 			}
+
+
+
+
+
+
+
+
+
 </script>
 
 <!-- JavaScript Bundle with Popper -->

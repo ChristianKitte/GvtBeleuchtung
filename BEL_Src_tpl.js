@@ -172,6 +172,11 @@ var app = (function () {
                 prog.materialKdUniform = gl.getUniformLocation(prog, "material.kd");
                 prog.materialKsUniform = gl.getUniformLocation(prog, "material.ks");
                 prog.materialKeUniform = gl.getUniformLocation(prog, "material.ke");
+
+                // Auswahl des Shading
+                prog.ShaderTypUniform = gl.getUniformLocation(prog, "uShaderTyp");
+                // Anzahl der Schritte bei Toon-Shading
+                prog.ToonStepUniform = gl.getUniformLocation(prog, "uToonSteps");
             }
 
             /**
@@ -304,10 +309,23 @@ var app = (function () {
             }
 
             function initEventHandler() {
-                // Rotation step for models.
-                var deltaRotate = Math.PI / 36;
-                var deltaTranslate = 0.05;
-                var deltaScale = 0.05;
+                let steps = document.getElementById("toon-steps");
+                steps.onchange = function (evt) {
+                    toonSteps = document.getElementById("toon-steps").value;
+
+                    if (toonSteps == "") {
+                        document.getElementById("toon-steps").value = "10";
+                        toonSteps = document.getElementById("toon-steps").value;
+                    }
+
+                    let x = 0;
+                }
+
+                let dropDown = document.getElementById("shading");
+                dropDown.onchange = function (evt) {
+                    shading = document.getElementById("shading").value;
+                    render();
+                }
 
                 window.onkeydown = function (evt) {
                     if (evt.key == "l" || evt.key == "L") {
@@ -336,6 +354,9 @@ var app = (function () {
 
                 // Set view matrix depending on camera.
                 mat4.lookAt(camera.vMatrix, camera.eye, camera.center, camera.up);
+
+                gl.uniform1i(prog.ShaderTypUniform, shading);
+                gl.uniform1f(prog.ToonStepUniform, toonSteps);
 
                 // NEW
                 // Set light uniforms.
@@ -460,7 +481,9 @@ var app = (function () {
                 }
             }
 
+            let shading = 0;
             let animate = false;
+            let toonSteps = 5;
             let currentOrbitDegree_0 = 0.;
             let currentOrbitDegree_1 = 1.;
             let orbitDegree_0 = Math.PI / 200;

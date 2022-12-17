@@ -37,8 +37,6 @@ void main()
 
 Durch Drücken der Taste l oder L (shift-l) startet die Bewegung der Lichter, durch nochmaliges Betätigen stoppt sie.
 
-Die Anwendung verwendet als Grundgerüst, den in der sechsten Einsendeaufgabe genutzte Code. Fast alle hier vorhandene Interaktionen sind somit auch in dieser Lösung verfügbar. 
-
 ### Aufteilung des Codes
 
 Der Code enthält zum Großteil den Code des Musterprogramms aus der Lerneinheit Beleuchtung.  Ergänzt wurde er um einen Startcode in **Startup.js**. Hier wird die Funktion **rotate** mit Hilfe von **RequestAnimationFrame** verzögert aufgerufen. Im folgenden wird sie regemäßig aufgerufen. 

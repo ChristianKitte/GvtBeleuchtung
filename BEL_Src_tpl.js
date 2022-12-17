@@ -318,7 +318,7 @@ var app = (function () {
                         toonSteps = document.getElementById("toon-steps").value;
                     }
 
-                    let x = 0;
+                    render();
                 }
 
                 let dropDown = document.getElementById("shading");

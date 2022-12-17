@@ -25,8 +25,9 @@
         <p>
             Zur Lösung wurde eine Aufgabe der Lerneinheit Beleuchtung als Grundlage verwendet und erweitert. Zu sehen
             ist ein rotes Licht, welches sich um die Y-Achse dreht, sowie ein Grünes Licht, welches sich um die Z-Achse
-            dreht. Hierdurch kommt es zu Überschneidungen und einer additiven Farbmischung. Das Zentrum ist hierbei
-            etwas in den Vordergrund und seitlich verschoben, um das gründe Licht besser wirken zu lassen.
+            dreht. Hierdurch kommt es zu Überschneidungen und einer additiven Farbmischung. Um den Effekt klarer
+            erkennen zu können, wurde auf Mischfarben verzichtet. Das Zentrum der Punktlichter wurde zudem etwas in
+            den Vordergrund gerückt und seitlich verschoben, um das gründe Licht besser wirken zu lassen.
 
             Um den Tiefeneffekt zu verstärken, wird der resultierende Farbton mit der Z-Komponente von
             gl_FragCoord multipliziert.
@@ -34,7 +35,7 @@
 
         <p>
             Der gesamte Code kann auf
-            <a href="https://github.com/ChristianKitte/GvtLightsWithToonShading" target="_blank">
+            <a href="https://github.com/ChristianKitte/GvtBeleuchtung" target="_blank">
                 GitHub eingesehen werden
             </a>.
 
@@ -135,6 +136,7 @@
 				vColor = vec4( phong(tPosition.xyz, tNormal, v), 1.0);
 			}
 
+
 </script>
 
 <script type="x-shader/x-fragment" id="fragmentshader">
@@ -146,8 +148,6 @@
 			    float zbuffer = fract(gl_FragCoord.z);
 				gl_FragColor = vColor * vec4(zbuffer,zbuffer,zbuffer, 1.0);
 			}
-
-
 </script>
 
 <!-- JavaScript Bundle with Popper -->

@@ -30,7 +30,16 @@
             den Vordergrund gerückt und seitlich verschoben, um das gründe Licht besser wirken zu lassen.
 
             Um den Tiefeneffekt zu verstärken, wird der resultierende Farbton mit der Z-Komponente von
-            gl_FragCoord multipliziert.
+            gl_FragCoord multipliziert.</p>
+        </p>
+
+        <p>
+            Über die DropDown Box (2) kann zwischen Phong-Shading und Toon-Shading gewechselt werden. Über das
+            Nummernfeld (3) kann angegeben werden, wieviele Schritte beim Toon-Shading verwendet werden sollen. Der
+            Bereich geht hierbei von 1 bis 50. Da für Schleifen im Shader ein konstanter Wert benötigt wird, ist
+            der Bereich hier begrenzt. Die Angabe der Schritte hat keinen Einfluss auf dei Darstellung der
+            Glanzlichter. Diese werden immer dargestellt. Wird ein Grenzwert überschritten, so wird das Glanzlicht in
+            Weiß ausgegeben.
         </p>
 
         <p>

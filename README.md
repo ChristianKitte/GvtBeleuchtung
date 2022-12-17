@@ -31,11 +31,48 @@ Um den Tiefeneffekt zu verstärken, wird der resultierende Farbton mit der Z-Kom
 void main()  
 {            
     float zbuffer = fract(gl_FragCoord.z);
-	gl_FragColor = vColor * vec4(zbuffer,zbuffer,zbuffer, 1.0);
+    gl_FragColor = vColor * vec4(zbuffer,zbuffer,zbuffer, 1.0);
 }
 ```
 
-Durch Drücken der Taste l oder L (shift-l) startet die Bewegung der Lichter, durch nochmaliges Betätigen stoppt sie.
+Es existieren drei Möglichkeiten zur Steuerung des Programms:
+
+![](assets/2022-12-17-19-07-19-image.png)
+
+Durch Drücken der Taste l oder L (shift-l) startet die Bewegung der Lichter, durch nochmaliges Betätigen stoppt sie. Über die DropDown Box (2) kann zwischen Phong-Shading und Toon-Shading gewechselt werden. 
+
+![](assets/2022-12-17-18-56-38-image.png)
+
+Über das  Nummernfeld (3) kann angegeben werden, wieviele Schritte beim Toon-Shading verwendet werden sollen. Der  Bereich geht hierbei von 1 bis 50. Da für Schleifen im Shader ein konstanter Wert benötigt wird, ist  der Bereich hier begrenzt.
+
+```
+float stepDelta = 1.0 / uToonSteps;  
+float curLimeValue = 0.;  
+
+const float Counter = 50.;  
+
+for(float i = 0.; i < Counter; i+=1.){  
+    if(i < uToonSteps){  
+        if(sn < curLimeValue){  
+            diffuse = L * curLimeValue;  
+            break;  
+        } else {   
+            curLimeValue+=stepDelta;  
+        }  
+    }  
+}
+```
+
+Die Angabe der Schritte hat keinen Einfluss auf die Darstellung der Glanzlichter. Diese werden immer dargestellt. Wird ein Grenzwert überschritten, so wird das Glanzlicht in  Weiß ausgegeben.
+
+```
+if(rv < 0.9){  
+    specular = vec3(0.,0.,0.);  
+}  
+else {  
+    specular = vec3(1.,1.,1.);  
+}
+```
 
 ### Aufteilung des Codes
 
@@ -44,5 +81,7 @@ Der Code enthält zum Großteil den Code des Musterprogramms aus der Lerneinheit
 Die Entscheidung, ob eine Translation berechnet und angewendet wird, erfolgt auf Grundlage der Variablen **animate**. Dies wird in Abhängigkeit von der Betätigung der **L-Taste** jeweils umgeschaltet. 
 
 Die Berechnung der neuen Position findet in der Funktion **updateTransformation** statt. Hierzu werden lediglich die Koordinaten der Punktleuchten verändert. Notwendige Translationen zu deren Anzeige sind bereits im Musterprogramm vorhanden.
+
+Die Steuerung des verwendeten Shadings erfolgt über die Variablen **shadin** und **toonSteps**, welche hierfür an den Shader als Uniform Variablen **uShaderTyp** und **uToonSteps** übergeben werden. Der relevante Code ist oben zu sehen.
 
 Die Datei **main.css** enthält alle benötigten Klassen, um die Grafik einfach einzubinden. In der Datei **layout.css** wird das Layout der Webseite selbst festgelegt. Daneben kommt Bootstrap für die Buttons zum Einsatz.
